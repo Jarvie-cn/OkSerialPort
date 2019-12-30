@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AnnotationDemo</string>
+    <string name="click">点击测试注解</string>
+</resources>

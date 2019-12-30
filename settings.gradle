@@ -1,0 +1,1 @@
+include ':app', ':bind-annotation', ':bind-compiler', ':bind-api', ':okserialport'
