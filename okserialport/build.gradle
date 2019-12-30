@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.github.dcendents.android-maven' // 增加
+group='com.github.Jarvie-cn'
 android {
     compileSdkVersion 26
 //    buildToolsVersion "29.0.2"

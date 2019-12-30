@@ -1,5 +1,6 @@
 apply plugin: 'java-library'
-
+apply plugin: 'com.github.dcendents.android-maven' // 增加
+group='com.github.Jarvie-cn'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':bind-annotation')

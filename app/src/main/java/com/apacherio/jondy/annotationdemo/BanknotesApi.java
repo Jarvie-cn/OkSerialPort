@@ -4,10 +4,10 @@ package com.apacherio.jondy.annotationdemo;
 import com.ljw.okserialport.serialport.bean.DataPack;
 import com.ljw.okserialport.serialport.callback.CommonCallback;
 import com.ljw.okserialport.serialport.callback.SendResultCallback;
+import com.ljw.okserialport.serialport.core.OkSerialport;
 import com.ljw.okserialport.serialport.utils.BaseSerialPortException;
 import com.ljw.okserialport.serialport.utils.ByteUtil;
 import com.ljw.okserialport.serialport.utils.CmdPack;
-import com.ljw.okserialport.serialport.core.OkSerialport;
 
 /**
  * @author : LJW
