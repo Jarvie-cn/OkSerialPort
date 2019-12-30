@@ -121,8 +121,8 @@ public class OkSerialport {
      * @param  sendCommand 命令
      * @param sendResultCallback 发送回调
      * */
-    public void send(String data, byte sendCommand , SendResultCallback sendResultCallback) {
-        byte[] checkCommand = new byte[]{sendCommand};
+    public void send(String data, byte[] sendCommand , SendResultCallback sendResultCallback) {
+        byte[] checkCommand = sendCommand;
         byte[] cmd = OrderAssembleUtil.allCmd(checkCommand, data);
         List<byte[]> checkCommands = new ArrayList<>();
         checkCommands.add(checkCommand);
