@@ -41,7 +41,7 @@ public class OrderAssembleUtil {
 
                 } else if (byteIndex == OkSerialPort_ProtocolManager.RUNNINGNUMBERINDEX) {
                     //流水号
-                    builder.append(FlowManager.get().getFlowWater());
+                    builder.append(ByteUtil.integer2HexStr(FlowManager.get().getFlowWater(), mProtocolMap.get(i).length*2));
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
 
                 } else if (i == mProtocolMap.keySet().size() - 1) {
@@ -52,9 +52,9 @@ public class OrderAssembleUtil {
                         builder.append(CRC16Utils.getCRC16(builder.toString()));
                     }
                 } else {
-                    builder.append(fillDatas[index]);
+                    int dataLength = TextUtils.isEmpty(fillDatas[index]) ? 0 : fillDatas[index].length() / 2;
                     index++;
-                    byteIndex = byteIndex + mProtocolMap.get(i).length;
+                    byteIndex = byteIndex + dataLength;
 
                 }
             } else {
@@ -66,7 +66,7 @@ public class OrderAssembleUtil {
                     builder.append(strDataLength);
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
                 } else {
-                    builder.append(ByteUtil.bytes2HexStr(new byte[]{mProtocolMap.get(i).value}));
+                    builder.append(ByteUtil.bytes2HexStr(new byte[]{mProtocolMap.get(i).value},0,mProtocolMap.get(i).length));
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
                 }
 
