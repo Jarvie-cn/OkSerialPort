@@ -1,6 +1,8 @@
 package com.apacherio.jondy.annotationdemo;
 
 
+import android.text.TextUtils;
+
 import com.ljw.okserialport.serialport.bean.DataPack;
 import com.ljw.okserialport.serialport.callback.CommonCallback;
 import com.ljw.okserialport.serialport.callback.SendResultCallback;
@@ -36,7 +38,9 @@ public class BanknotesApi {
         StringBuilder data = new StringBuilder();
         data.append(ByteUtil.integer2HexStr(2));
         data.append(ByteUtil.integer2HexStr(number * 2));
-        OkSerialport.getInstance().send(data.toString(),new byte[]{BanknotesProtocol.CHANGE_ACTION}, new SendResultCallback() {
+
+        String [] strings = new String[]{ByteUtil.integer2HexStr(1),ByteUtil.bytesToHexString(new byte[]{BanknotesProtocol.CHANGE_ACTION})};
+        OkSerialport.getInstance().send(null,data.toString(),new byte[]{BanknotesProtocol.CHANGE_ACTION}, new SendResultCallback() {
             @Override
             public void onStart(CmdPack cmdPack) {
                 if (commonCallback != null) {
@@ -81,7 +85,10 @@ public class BanknotesApi {
         data.append(ByteUtil.integer2HexStr(i));
         data.append(ByteUtil.integer2HexStr(0));
         data.append(ByteUtil.integer2HexStr(0));
-        OkSerialport.getInstance().send(data.toString(),new byte[]{BanknotesProtocol.CONTROL_WAY_SHIPMENT_CMD},new SendResultCallback() {
+
+        String [] strings = new String[]{ByteUtil.integer2HexStr(1),ByteUtil.bytesToHexString(new byte[]{BanknotesProtocol.CONTROL_WAY_SHIPMENT_CMD})};
+
+        OkSerialport.getInstance().send(null,data.toString(),new byte[]{BanknotesProtocol.CONTROL_WAY_SHIPMENT_CMD},new SendResultCallback() {
             @Override
             public void onStart(CmdPack cmdPack) {
                 if (commonCallback != null) {
@@ -124,7 +131,10 @@ public class BanknotesApi {
         data.append(ByteUtil.integer2HexStr(i));
         data.append(ByteUtil.integer2HexStr(0));
         data.append(ByteUtil.integer2HexStr(0));
-        OkSerialport.getInstance().send(data.toString(),new byte[]{BanknotesProtocol.CONTROL_COIN_WORK_MODE}, new SendResultCallback() {
+
+        String [] strings = new String[]{ByteUtil.integer2HexStr(1),ByteUtil.bytesToHexString(new byte[]{BanknotesProtocol.CONTROL_COIN_WORK_MODE})};
+
+        OkSerialport.getInstance().send(null,data.toString(),new byte[]{BanknotesProtocol.CONTROL_COIN_WORK_MODE}, new SendResultCallback() {
             @Override
             public void onStart(CmdPack cmdPack) {
                 if (commonCallback != null) {

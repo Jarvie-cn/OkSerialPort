@@ -1,7 +1,6 @@
 package com.ljw.okserialport.serialport.core;
 
 
-
 import com.ljw.okserialport.serialport.bean.DataPack;
 import com.ljw.okserialport.serialport.bean.InitSerialPortBean;
 import com.ljw.okserialport.serialport.callback.AsyncDataCallback;
@@ -9,6 +8,7 @@ import com.ljw.okserialport.serialport.callback.DataPackCallback;
 import com.ljw.okserialport.serialport.callback.SendResultCallback;
 import com.ljw.okserialport.serialport.callback.SerialportConnectCallback;
 import com.ljw.okserialport.serialport.utils.ApiException;
+import com.ljw.okserialport.serialport.utils.BaseSerialPortException;
 import com.ljw.okserialport.serialport.utils.CmdPack;
 import com.ljw.okserialport.serialport.utils.OrderAssembleUtil;
 import com.ljw.okserialport.serialport.utils.ResultDataParseUtils;
@@ -55,7 +55,7 @@ public class OkSerialport {
 
         heartCommand = OkSerialPort_ProtocolManager.mHeartCommands;
         InitSerialPortBean initSerialPortBean =
-                new InitSerialPortBean( deviceAddress, baudRate, heartCommand.size()>0?true:false,
+                new InitSerialPortBean(deviceAddress, baudRate, heartCommand.size() > 0 ? true : false,
                         heartCommand);
         initSerialPortBean.setServiceName("async-serial_services-thread");
         close();
@@ -97,20 +97,20 @@ public class OkSerialport {
     /**
      * @param deviceAddress   串口地址
      * @param baudRate        波特率
-     * @param heartCommands    心跳命令数据
+     * @param heartCommands   心跳命令数据
      * @param connectCallback 连接结果回调
      */
     public void init(String deviceAddress, int baudRate, List<byte[]> heartCommands,
                      SerialportConnectCallback connectCallback) {
         this.mConnectCallback = connectCallback;
         List<byte[]> heartCommand = new ArrayList<>();
-        if (heartCommands != null && heartCommands.size() >0) {
+        if (heartCommands != null && heartCommands.size() > 0) {
             heartCommand = heartCommands;
-        }else {
+        } else {
             heartCommand = OkSerialPort_ProtocolManager.mHeartCommands;
         }
         InitSerialPortBean initSerialPortBean =
-                new InitSerialPortBean( deviceAddress, baudRate, heartCommand.size()>0?true:false,
+                new InitSerialPortBean(deviceAddress, baudRate, heartCommand.size() > 0 ? true : false,
                         heartCommand);
         initSerialPortBean.setServiceName("async-serial_services-thread");
         close();
@@ -150,8 +150,8 @@ public class OkSerialport {
     }
 
 
-    public void reConnect(String deviceAddress, int baudRate,List<byte[]> heartCommands) {
-        init(deviceAddress, baudRate, heartCommands,mConnectCallback);
+    public void reConnect(String deviceAddress, int baudRate, List<byte[]> heartCommands) {
+        init(deviceAddress, baudRate, heartCommands, mConnectCallback);
     }
 
 
@@ -173,21 +173,28 @@ public class OkSerialport {
     }
 
     /**
-     * @param data 数据
-     * @param  sendCommand 命令
+     * @param data               数据
+     * @param sendCommand        命令
      * @param sendResultCallback 发送回调
-     * */
-    public void send(String data, byte[] sendCommand , SendResultCallback sendResultCallback) {
-        byte[] checkCommand = sendCommand;
-        byte[] cmd = OrderAssembleUtil.allCmd(checkCommand, data);
-        List<byte[]> checkCommands = new ArrayList<>();
-        checkCommands.add(checkCommand);
-        final CmdPack cmdPack = new CmdPack(0, cmd, checkCommands);
-        cmdPack.setSendOutTime(mSendOutTime);
-        cmdPack.setWaitOutTime(mWaitOutTime);
-        SerialPortSingletonMgr.get().send(cmdPack, sendResultCallback);
+     */
+    public void send(String[] fillDatas,String data, byte[] sendCommand, SendResultCallback sendResultCallback) {
+        try {
+            byte[] checkCommand = sendCommand;
+            byte[] cmd = new byte[0];
+            cmd = OrderAssembleUtil.allCmd(checkCommand,fillDatas, data);
+            List<byte[]> checkCommands = new ArrayList<>();
+            checkCommands.add(checkCommand);
+            final CmdPack cmdPack = new CmdPack(0, cmd, checkCommands);
+            cmdPack.setSendOutTime(mSendOutTime);
+            cmdPack.setWaitOutTime(mWaitOutTime);
+            SerialPortSingletonMgr.get().send(cmdPack, sendResultCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (sendResultCallback != null) {
+                sendResultCallback.onFailed(new BaseSerialPortException("-1","发送失败："+e.getMessage(),1));
+            }
+        }
     }
-
 
 
 }

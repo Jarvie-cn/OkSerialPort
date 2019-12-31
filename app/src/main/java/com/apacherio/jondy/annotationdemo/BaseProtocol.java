@@ -21,49 +21,49 @@ public class BaseProtocol {
     public static byte FRAME_HEADER2 = 100;
 
     /**
-     * 原地址长度
+     * 原地址
      */
     @Protocol(index = 2, length = 1, value = 0)
-    public static int RAW_ADDRESS_IEN = 1;
+    public static int RAW_ADDRESS = 1;
 
 
     /**
-     * 目标地址长度
+     * 目标地址
      */
-    @Protocol(index = 3, length = 1, value = 1)
-    public static int DEVICE_ADDRESS_IEN = 1;
+    @Protocol(index = 3, length = 1,value = 1)
+    public static int DEVICE_ADDRESS = 1;
 
     /**
      * 数据长度
      */
-    @Protocol(index = 4, length = 1, value = 2)
-    public static int DATE_NUMBER_LEN = 1;
+    @Protocol(index = 4, length = 1,value = 2)
+    public static int DATE_NUMBER = 1;
 
 
     /**
-     * 命令码长度
+     * 命令码
      */
     @Protocol(index = 5, length = 1)
-    public static int COMMAND_LEN = 1;
+    public static int COMMAND = 1;
 
 
     /**
-     * 协议版本长度
+     * 协议版本
      */
-    @Protocol(index = 6, length = 1, value = (byte) 0x10)
-    public static int DEAL_VERSIONS_LEN = 1;
+    @Protocol(index = 6,length = 1, value = (byte) 0x10)
+    public static int DEAL_VERSIONS= 1;
 
     /**
-     * 数据长度
+     * 数据
      */
     @Protocol(index = 7)
-    public static int DATA_LEN = 1;
+    public static int DATA = 1;
 
     /**
      * 异或字节长度
      */
     @Protocol(index = 8, length = 1)
-    public static int OXR_LEN = 1;
+    public static int OXR = 1;
 
 
     /**

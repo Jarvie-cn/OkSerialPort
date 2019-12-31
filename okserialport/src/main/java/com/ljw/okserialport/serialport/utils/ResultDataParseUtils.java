@@ -53,7 +53,7 @@ public class ResultDataParseUtils {
             //校验数据域长度,数据域在第5个位置
             byte[] len = new byte[]{byteBuffer.get(frameStart + OkSerialPort_ProtocolManager.DATALENINDEX)};
             //数据域长度(命令码+数据的长度)
-            int dataLen = ByteUtil.byteToInt(len) -mProtocolMap.get( OkSerialPort_ProtocolManager.DATALENINDEX).value;
+            int dataLen = ByteUtil.byteToInt(len) - mProtocolMap.get( OkSerialPort_ProtocolManager.DATALENINDEX).value;
             // 总数据长度(实际长度=最小长度(不包含数据域长度)+实际数据长度)
             int total = OkSerialPort_ProtocolManager.MINDALALEN + dataLen;
             if (readable < total) {
