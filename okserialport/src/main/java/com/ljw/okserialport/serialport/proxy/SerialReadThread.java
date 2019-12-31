@@ -48,7 +48,7 @@ public class SerialReadThread extends Thread {
 
     @Override
     public void run() {
-        byte[] received = new byte[1024];
+        byte[] received = new byte[2048];
         int size;
 
 
