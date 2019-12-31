@@ -66,7 +66,7 @@ public class OrderAssembleUtil {
                     builder.append(strDataLength);
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
                 } else {
-                    builder.append(ByteUtil.bytes2HexStr(new byte[]{mProtocolMap.get(i).value},0,mProtocolMap.get(i).length));
+                    builder.append(ByteUtil.integer2HexStr(ByteUtil.byteToInt(new byte[]{mProtocolMap.get(i).value}),mProtocolMap.get(i).length*2));
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
                 }
 
