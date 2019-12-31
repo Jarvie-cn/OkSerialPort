@@ -94,8 +94,64 @@ public class OkSerialport {
         });
     }
 
-    public void reConnect(String deviceAddress, int baudRate) {
-        init(deviceAddress, baudRate, mConnectCallback);
+    /**
+     * @param deviceAddress   串口地址
+     * @param baudRate        波特率
+     * @param heartCommands    心跳命令数据
+     * @param connectCallback 连接结果回调
+     */
+    public void init(String deviceAddress, int baudRate, List<byte[]> heartCommands,
+                     SerialportConnectCallback connectCallback) {
+        this.mConnectCallback = connectCallback;
+        List<byte[]> heartCommand = new ArrayList<>();
+        if (heartCommands != null && heartCommands.size() >0) {
+            heartCommand = heartCommands;
+        }else {
+            heartCommand = OkSerialPort_ProtocolManager.mHeartCommands;
+        }
+        InitSerialPortBean initSerialPortBean =
+                new InitSerialPortBean( deviceAddress, baudRate, heartCommand.size()>0?true:false,
+                        heartCommand);
+        initSerialPortBean.setServiceName("async-serial_services-thread");
+        close();
+        SerialPortSingletonMgr.get().init(initSerialPortBean, new AsyncDataCallback() {
+            @Override
+            public boolean checkData(byte[] received, int size, DataPackCallback dataPackCallback) {
+                return ResultDataParseUtils.handleDataPack(byteBuffer, received, size, dataPackCallback);
+            }
+
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+
+            @Override
+            public void onActivelyReceivedCommand(DataPack dataPack) {
+
+                handleHeatData(dataPack);
+            }
+        }, new SerialportConnectCallback() {
+            @Override
+            public void onError(ApiException apiException) {
+                if (mConnectCallback != null) {
+                    mConnectCallback.onError(apiException);
+                }
+            }
+
+            @Override
+            public void onOpenSerialPortSuccess() {
+                if (mConnectCallback != null) {
+                    mConnectCallback.onOpenSerialPortSuccess();
+                }
+            }
+
+            @Override
+            public void onHeatDataCallback(DataPack dataPack) {
+
+            }
+        });
+    }
+
+
+    public void reConnect(String deviceAddress, int baudRate,List<byte[]> heartCommands) {
+        init(deviceAddress, baudRate, heartCommands,mConnectCallback);
     }
 
 

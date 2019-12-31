@@ -14,46 +14,43 @@ public class BaseProtocol {
     /**
      * 帧头
      */
-    @Protocol(index = 0,length = 1,value =  (byte)0x3B)
-    public static byte FRAME_HEADER =  0x3B;
+    @Protocol(index = 0, length = 1, value = (byte) 0x3B)
+    public static byte FRAME_HEADER = 0x3B;
 
-    @Protocol(index = 1,length = 1,value = (byte)0xB3)
-    public static byte FRAME_HEADER2 =  100;
+    @Protocol(index = 1, length = 1, value = (byte) 0xB3)
+    public static byte FRAME_HEADER2 = 100;
 
     /**
      * 原地址长度
      */
-    @Protocol(index = 2,length = 1,value = 0)
+    @Protocol(index = 2, length = 1, value = 0)
     public static int RAW_ADDRESS_IEN = 1;
 
 
     /**
      * 目标地址长度
      */
-    @Protocol(index = 3,length = 1,value = 1)
+    @Protocol(index = 3, length = 1, value = 1)
     public static int DEVICE_ADDRESS_IEN = 1;
 
     /**
      * 数据长度
      */
-    @Protocol(index = 4,length = 1,value = 2)
+    @Protocol(index = 4, length = 1, value = 2)
     public static int DATE_NUMBER_LEN = 1;
 
 
     /**
      * 命令码长度
      */
-    @Protocol(index = 5,length = 1)
+    @Protocol(index = 5, length = 1)
     public static int COMMAND_LEN = 1;
-
-
-
 
 
     /**
      * 协议版本长度
      */
-    @Protocol(index = 6,length = 1,value = (byte) 0x10)
+    @Protocol(index = 6, length = 1, value = (byte) 0x10)
     public static int DEAL_VERSIONS_LEN = 1;
 
     /**
@@ -65,7 +62,7 @@ public class BaseProtocol {
     /**
      * 异或字节长度
      */
-    @Protocol(index = 8,length = 1)
+    @Protocol(index = 8, length = 1)
     public static int OXR_LEN = 1;
 
 
@@ -96,12 +93,12 @@ public class BaseProtocol {
      * 帧头字节数
      */
     @Protocol(frameHeaderCount = 2)
-    public static int FRAME_HEADERCOUNT ;
+    public static int FRAME_HEADERCOUNT;
     /**
      * 校验码规则  0表示异或校验  1表示CRC16校验
      */
     @Protocol(checkCodeRule = 0)
-    public static int CHECK_CODERULE ;
+    public static int CHECK_CODERULE;
 
 
     /**
@@ -110,13 +107,18 @@ public class BaseProtocol {
      * 2个字节	1个字节	    1个字节  	1个字节	 1个字节	1个字节    n个字节    1个字节
      */
     @Protocol(minDalaLen = 8)
-    public static int MIN_PACK_LEN ;
+    public static int MIN_PACK_LEN;
 
-
-    @Protocol(heartbeatCommand = (byte) 0x33)
-    public  int heartbeatCommand1 ;
-    @Protocol(heartbeatCommand = (byte) 0x0B)
-    public  int heartbeatCommand2 ;
+//    /**
+//     * 心跳命令
+//     */
+//    @Protocol(heartbeatCommand = (byte) 0x33)
+//    public int heartbeatCommand1;
+//    /**
+//     * 心跳命令
+//     */
+//    @Protocol(heartbeatCommand = (byte) 0xB3)
+//    public int heartbeatCommand2;
 
 
 }

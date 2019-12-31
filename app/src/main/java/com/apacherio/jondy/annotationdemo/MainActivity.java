@@ -13,6 +13,10 @@ import com.ljw.okserialport.serialport.utils.ApiException;
 import com.ljw.okserialport.serialport.utils.BaseSerialPortException;
 import com.ljw.okserialport.serialport.utils.ByteUtil;
 import com.ljw.okserialport.serialport.utils.CmdPack;
+import com.ljw.protocol.Protocol;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -91,9 +95,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        List<byte[]> list = new ArrayList<>();
+        list.add(new byte[]{(byte) 0x33});
+        list.add(new byte[]{(byte) 0x0B});
 //        tv.setText("静态编译模拟Butterknife绑定成功！");
-        OkSerialport.getInstance().init("/dev/ttyS4", 9600, new SerialportConnectCallback() {
+        OkSerialport.getInstance().init("/dev/ttyS4", 9600, list,new SerialportConnectCallback() {
             @Override
             public void onError(ApiException apiException) {
                 Log.e("tag", "onError ====  " + apiException.getMessage());

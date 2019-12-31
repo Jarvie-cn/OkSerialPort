@@ -98,7 +98,7 @@ public class SerialReadThread extends Thread {
             @Override
             public void setDataPack(DataPack dataPack) {
                 if (dataPack != null) {
-//                    LogPlus.e("接收数据:" + ByteUtil.bytes2HexStr(dataPack.getAllPackData()));
+                    LJWLogUtils.e("接收数据:" + ByteUtil.bytes2HexStr(dataPack.getAllPackData()));
                     if (isActivelyReceivedCommand && isActivelyReceivedCommand(dataPack)) {
                         if (mBaseDataCallback instanceof AsyncDataCallback) {
 //                            LogPlus.e("心跳数据");
@@ -106,10 +106,7 @@ public class SerialReadThread extends Thread {
                             ((AsyncDataCallback) mBaseDataCallback).onActivelyReceivedCommand(dataPack);
                         }
                         return;
-                    }
-
-                    //不是心跳数据
-                    if (mSerialReadCallback != null) {
+                    }else if (mSerialReadCallback != null) {//不是心跳数据
                         LJWLogUtils.e("不是心跳数据");
                         mSerialReadCallback.onReadMessage(new ReadMessage(ReadType.ReadDataSuccess, "ReadDataSuccess", dataPack));
                     }
