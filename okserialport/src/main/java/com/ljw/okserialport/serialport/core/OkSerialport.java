@@ -24,8 +24,8 @@ import java.util.List;
  */
 public class OkSerialport {
 
-    public int mSendOutTime = 10000;
-    public int mWaitOutTime = 10000;
+    public int mSendOutTime = 7000;
+    public int mWaitOutTime = 7000;
 
 
     private static OkSerialport instance;
@@ -173,6 +173,7 @@ public class OkSerialport {
     }
 
     /**
+     * @param fillDatas           填充占位数据，没有则传null
      * @param data               数据
      * @param sendCommand        命令
      * @param sendResultCallback 发送回调
