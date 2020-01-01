@@ -90,7 +90,6 @@ public class ResultDataParseUtils {
             byteBuffer.reset();
             //获取整个包
             byte[] allPack = new byte[total];
-//            LogPlus.e("原始字节数据：" +ByteUtil.bytes2HexStr(allPack) );
             byteBuffer.get(allPack);
             int oXRLen = mProtocolMap.get(mProtocolMap.size() - 1).length;
             OkSerialPortLog.e("整个包数据= " + ByteUtil.bytes2HexStr(allPack));
