@@ -152,22 +152,31 @@ public class ProtocolProcessor extends AbstractProcessor {
                     builder.append("public static int DEALVERSIONS = " + dealVersions + ";\n");
                 }
 
+                int dataLenFirst = bindView.dataLenFirst();
+                if (dataLenFirst != Integer.MAX_VALUE) {//数据长度字节起始位置
+                    builder.append("public static int DATALENFIRST = " + dataLenFirst + ";\n");
+                }
+
                 int dataLenIndex = bindView.dataLenIndex();
                 if (dataLenIndex != Integer.MAX_VALUE) {//数据长度起始角标
                     builder.append("public static int DATALENINDEX = " + dataLenIndex + ";\n");
                 }
 
-                int dataStartIndex = bindView.dataStartIndex();
-                if (dataStartIndex != Integer.MAX_VALUE) {//数据域起始角标
-                    builder.append("public static int DATASTARTINDEX = " + dataStartIndex + ";\n");
+                int dataFirst = bindView.dataFirst();
+                if (dataFirst != Integer.MAX_VALUE) {//数据域起始角标
+                    builder.append("public static int DATAFIRST = " + dataFirst + ";\n");
                 }
-                int commandStartIndex = bindView.commandStartIndex();
-                if (commandStartIndex != Integer.MAX_VALUE) {//命令码起始角标
-                    builder.append("public static int COMMANDSTARTINDEX = " + commandStartIndex + ";\n");
+                int commandFirst = bindView.commandFirst();
+                if (commandFirst != Integer.MAX_VALUE) {//命令码起始角标
+                    builder.append("public static int COMMANDFIRST = " + commandFirst + ";\n");
                 }
-                int runningNumberIndex = bindView.runningNumberIndex();
-                if (runningNumberIndex != Integer.MAX_VALUE) {////流水号起始角标
-                    builder.append("public static int RUNNINGNUMBERINDEX = " + runningNumberIndex + ";\n");
+                int runningNumberFirst = bindView.runningNumberFirst();
+                if (runningNumberFirst != Integer.MAX_VALUE) {////流水号起始角标
+                    builder.append("public static int RUNNINGNUMBERFIRST = " + runningNumberFirst + ";\n");
+                }
+                int commandIndex = bindView.commandIndex();
+                if (commandIndex != Integer.MAX_VALUE) {////流水号起始角标
+                    builder.append("public static int COMMANDINDEX = " + commandIndex + ";\n");
                 }
                 int frameHeaderCount = bindView.frameHeaderCount();
                 if (frameHeaderCount != -1) {//帧头字节数
@@ -197,7 +206,7 @@ public class ProtocolProcessor extends AbstractProcessor {
 
         builder.append("public static void bind(){");
         builder.append("\n");
-        builder.append("OkSerialPort_ProtocolManager.getInstance().bind(DATALENINDEX,DATASTARTINDEX,COMMANDSTARTINDEX,RUNNINGNUMBERINDEX,FRAMEHEADERCOUNT,CHECKCODERULE,MINDALALEN,mProtocolMap,mHeartCommands);");
+        builder.append("OkSerialPort_ProtocolManager.getInstance().bind(COMMANDINDEX,DATALENINDEX,DATALENFIRST,DATAFIRST,COMMANDFIRST,RUNNINGNUMBERFIRST,FRAMEHEADERCOUNT,CHECKCODERULE,MINDALALEN,mProtocolMap,mHeartCommands);");
         builder.append("\n");
         builder.append("}\n");
 

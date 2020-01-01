@@ -28,18 +28,18 @@ public class OrderAssembleUtil {
         int byteIndex = 0;
         for (int i = 0; i < mProtocolMap.keySet().size(); i++) {
             if (mProtocolMap.get(i).value == -1) {
-                if (byteIndex == OkSerialPort_ProtocolManager.DATASTARTINDEX) {
+                if (byteIndex == OkSerialPort_ProtocolManager.DATAFIRST) {
                     //数据默认起始位置
                     builder.append(data);
                     int dataLength = TextUtils.isEmpty(data) ? 0 : data.length() / 2;
                     byteIndex = byteIndex + dataLength;
-                } else if (byteIndex == OkSerialPort_ProtocolManager.COMMANDSTARTINDEX) {
+                } else if (byteIndex == OkSerialPort_ProtocolManager.COMMANDFIRST) {
                     //命令码开始标识
                     String command = ByteUtil.bytes2HexStr(cmd);
                     builder.append(command);
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
 
-                } else if (byteIndex == OkSerialPort_ProtocolManager.RUNNINGNUMBERINDEX) {
+                } else if (byteIndex == OkSerialPort_ProtocolManager.RUNNINGNUMBERFIRST) {
                     //流水号
                     builder.append(ByteUtil.integer2HexStr(FlowManager.get().getFlowWater(), mProtocolMap.get(i).length*2));
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
@@ -53,12 +53,12 @@ public class OrderAssembleUtil {
                     }
                 } else {
                     int dataLength = TextUtils.isEmpty(fillDatas[index]) ? 0 : fillDatas[index].length() / 2;
-                    index++;
+                    builder.append(fillDatas[index]);
                     byteIndex = byteIndex + dataLength;
-
+                    index++;
                 }
             } else {
-                if (byteIndex == OkSerialPort_ProtocolManager.DATALENINDEX) {
+                if (byteIndex == OkSerialPort_ProtocolManager.DATALENFIRST) {
                     //数据长度标识
                     int dataLength = TextUtils.isEmpty(data) ? 0 : data.length() / 2;
                     String strDataLength = ByteUtil.integer2HexStr(dataLength +
@@ -75,7 +75,7 @@ public class OrderAssembleUtil {
 
 
         }
-        LJWLogUtils.e("发送:" + builder.toString());
+        OkSerialPortLog.e("发送:" + builder.toString());
         return ByteUtil.hexStr2bytes(builder.toString());
     }
 

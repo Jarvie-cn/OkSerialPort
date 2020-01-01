@@ -16,10 +16,13 @@ public class OkSerialPort_ProtocolManager {
 
     public static Map<Integer, ProtocolBean> mProtocolMap = new HashMap<>();
     public static List<byte[]> mHeartCommands = new ArrayList<>();
+
+    public static int DATALENFIRST ;
+    public static int COMMANDINDEX ;
     public static int DATALENINDEX ;
-    public static int DATASTARTINDEX ;
-    public static int COMMANDSTARTINDEX ;
-    public static int RUNNINGNUMBERINDEX;
+    public static int DATAFIRST ;
+    public static int COMMANDFIRST ;
+    public static int RUNNINGNUMBERFIRST ;
     public static int FRAMEHEADERCOUNT ;
     public static int CHECKCODERULE ;
     public static int MINDALALEN ;
@@ -37,11 +40,13 @@ public class OkSerialPort_ProtocolManager {
         return instance;
     }
 
-    public   void bind(int datalenindex,int datastartindex,int commandstartindex,int runningnumberindex,int frameheadercount,int checkcoderule,int mindalalen,Map<Integer, ProtocolBean> map,List<byte[]> list){
+    public  void bind(int commandindex,int datalenindex,int datalenfirst,int datafirst,int commandfirst,int runningnumberfirst,int frameheadercount,int checkcoderule,int mindalalen,Map<Integer, ProtocolBean> map,List<byte[]> list){
+        COMMANDINDEX = commandindex;
         DATALENINDEX = datalenindex;
-        DATASTARTINDEX = datastartindex;
-        COMMANDSTARTINDEX = commandstartindex;
-        RUNNINGNUMBERINDEX = runningnumberindex;
+        DATALENFIRST = datalenfirst;
+        DATAFIRST = datafirst;
+        COMMANDFIRST = commandfirst;
+        RUNNINGNUMBERFIRST = runningnumberfirst;
         FRAMEHEADERCOUNT = frameheadercount;
         CHECKCODERULE = checkcoderule;
         MINDALALEN = mindalalen;

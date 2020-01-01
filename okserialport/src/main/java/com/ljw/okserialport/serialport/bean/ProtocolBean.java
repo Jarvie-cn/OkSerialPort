@@ -18,7 +18,7 @@ public class ProtocolBean {
     /**
      * 字节长度
      * */
-    public byte value;
+    public byte  value;
 
     public ProtocolBean(int index, int length, byte value) {
         this.index = index;

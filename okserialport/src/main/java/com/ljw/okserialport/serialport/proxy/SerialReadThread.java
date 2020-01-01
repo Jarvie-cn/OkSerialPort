@@ -10,7 +10,7 @@ import com.ljw.okserialport.serialport.callback.BaseDataCallback;
 import com.ljw.okserialport.serialport.callback.DataPackCallback;
 import com.ljw.okserialport.serialport.callback.SerialReadCallback;
 import com.ljw.okserialport.serialport.utils.ByteUtil;
-import com.ljw.okserialport.serialport.utils.LJWLogUtils;
+import com.ljw.okserialport.serialport.utils.OkSerialPortLog;
 import com.ljw.okserialport.serialport.utils.ReadMessage;
 import com.ljw.okserialport.serialport.utils.ReadType;
 
@@ -48,7 +48,7 @@ public class SerialReadThread extends Thread {
 
     @Override
     public void run() {
-        byte[] received = new byte[2048];
+        byte[] received = new byte[1024];
         int size;
 
 
@@ -61,6 +61,7 @@ public class SerialReadThread extends Thread {
                 boolean isSend = false;
                 if (available > 0) {
                     size = mBufferedInputStream.read(received);
+
                     if (size > 0) {
                         isSend = onDataReceive(received, size);
                         // 暂停一点时间，免得处理数据太快
@@ -98,16 +99,16 @@ public class SerialReadThread extends Thread {
             @Override
             public void setDataPack(DataPack dataPack) {
                 if (dataPack != null) {
-                    LJWLogUtils.e("接收数据:" + ByteUtil.bytes2HexStr(dataPack.getAllPackData()));
+                    OkSerialPortLog.e("接收数据:" + ByteUtil.bytes2HexStr(dataPack.getAllPackData()));
                     if (isActivelyReceivedCommand && isActivelyReceivedCommand(dataPack)) {
                         if (mBaseDataCallback instanceof AsyncDataCallback) {
 //                            LogPlus.e("心跳数据");
-                            LJWLogUtils.e("心跳数据");
+                            OkSerialPortLog.e("心跳数据");
                             ((AsyncDataCallback) mBaseDataCallback).onActivelyReceivedCommand(dataPack);
                         }
                         return;
                     }else if (mSerialReadCallback != null) {//不是心跳数据
-                        LJWLogUtils.e("不是心跳数据");
+                        OkSerialPortLog.e("不是心跳数据");
                         mSerialReadCallback.onReadMessage(new ReadMessage(ReadType.ReadDataSuccess, "ReadDataSuccess", dataPack));
                     }
 
@@ -160,7 +161,7 @@ public class SerialReadThread extends Thread {
         try {
             mBufferedInputStream.close();
         } catch (IOException e) {
-            LJWLogUtils.e("异常:" + e.toString());
+            OkSerialPortLog.e("异常:" + e.toString());
         } finally {
             super.interrupt();
         }

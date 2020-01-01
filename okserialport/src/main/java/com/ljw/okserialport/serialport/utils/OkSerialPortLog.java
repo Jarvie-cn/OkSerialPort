@@ -7,9 +7,9 @@ import android.util.Log;
  * @date : 2019/12/29
  * @desc :
  */
-public class LJWLogUtils {
+public class OkSerialPortLog {
 
-    public static boolean isDebug = true;
+    public static boolean isDebug = false;
 
     public void setDebug(boolean debug) {
         isDebug = debug;
@@ -18,7 +18,7 @@ public class LJWLogUtils {
 
     public static void  e(String text){
         if (isDebug) {
-            Log.e("LJW",text);
+            Log.e("OkSerialport",text);
         }
     }
 }

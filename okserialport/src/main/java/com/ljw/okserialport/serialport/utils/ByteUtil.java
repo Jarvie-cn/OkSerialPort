@@ -56,6 +56,23 @@ public class ByteUtil {
         return sb.toString();
     }
 
+
+    /**
+     * 字节数组（高位在前）转换成对应的非负整数
+     *
+     * @param ori    需要转换的字节数组
+     * @param offset 目标位置偏移
+     * @param len    目标数组长度
+     * @return
+     */
+    public static int bytes2long(byte[] ori, int offset, int len) {
+        int result = 0;
+        for (int i = 0; i < len; i++) {
+            result = result | ((0xff & ori[offset + i]) << (len - 1 - i) * 8);
+        }
+        return result;
+    }
+
     /**
      * int转换为ASCII, 字符串,不够位数以空字符开头
      *
@@ -82,6 +99,24 @@ public class ByteUtil {
         temp.append(sb.toString());
         return temp.toString();
 
+    }
+
+
+
+
+    /**
+     * int类型转成高位在前的字节数组
+     *
+     * @param ori
+     * @param arrayAmount 字节数组长度
+     * @return
+     */
+    public static byte[] long2bytes(long ori, byte[] targetBytes, int offset, int arrayAmount) {
+        for (int i = 0; i < arrayAmount; i++) {
+            // 高位在前
+            targetBytes[offset + i] = (byte) ((ori >>> (arrayAmount - i - 1) * 8) & 0xff);
+        }
+        return targetBytes;
     }
 
     /**

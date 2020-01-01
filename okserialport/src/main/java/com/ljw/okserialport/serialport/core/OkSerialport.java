@@ -120,7 +120,7 @@ public class OkSerialport {
                 return ResultDataParseUtils.handleDataPack(byteBuffer, received, size, dataPackCallback);
             }
 
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(5024);
 
             @Override
             public void onActivelyReceivedCommand(DataPack dataPack) {

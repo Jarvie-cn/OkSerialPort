@@ -7,20 +7,27 @@ import android.view.View;
 
 import com.ljw.okserialport.serialport.bean.DataPack;
 import com.ljw.okserialport.serialport.callback.CommonCallback;
+import com.ljw.okserialport.serialport.callback.SendResultCallback;
 import com.ljw.okserialport.serialport.callback.SerialportConnectCallback;
 import com.ljw.okserialport.serialport.core.OkSerialport;
 import com.ljw.okserialport.serialport.utils.ApiException;
 import com.ljw.okserialport.serialport.utils.BaseSerialPortException;
 import com.ljw.okserialport.serialport.utils.ByteUtil;
 import com.ljw.okserialport.serialport.utils.CmdPack;
-import com.ljw.protocol.Protocol;
+import com.ljw.okserialport.serialport.utils.OkSerialPortLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    /**
+     * 3．控制纸币器工作模式
+     */
+    public static byte CONTROL_0A = (byte) 0x0A;
+    public static byte CONTROL_06 = (byte) 0x06;
+    public static byte CONTROL_09 = (byte) 0x09;
+    public static byte CONTROL_03 = (byte) 0x01;
 
 
 
@@ -28,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        OkSerialPortLog.isDebug = true;
         com.apacherio.jondy.annotationdemo.OkSerialPort_Protocol.bind();
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        List<byte[]> list = new ArrayList<>();
-        list.add(new byte[]{(byte) 0x33});
-        list.add(new byte[]{(byte) 0x0B});
-//       tv.setText("静态编译模拟Butterknife绑定成功！");
-        OkSerialport.getInstance().init("/dev/ttyS4", 9600, list,new SerialportConnectCallback() {
+        OkSerialport.getInstance().init("/dev/ttyS4", 9600,new SerialportConnectCallback() {
             @Override
             public void onError(ApiException apiException) {
                 Log.e("tag", "onError ====  " + apiException.getMessage());
@@ -120,4 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
+
+
 }

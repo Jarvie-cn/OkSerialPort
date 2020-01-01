@@ -78,25 +78,34 @@ public @interface Protocol {
     byte frameHeader2() default -1;
 
     /**
-     * 数据长度标识
+     * 数据长度字节开始位置
+     */
+    int dataLenFirst() default Integer.MAX_VALUE;
+
+
+    /**
+     * 数据字节默认起始位置
+     */
+    int dataFirst() default Integer.MAX_VALUE;
+
+    /**
+     * 命令码字节开始位置
+     */
+    int commandFirst() default Integer.MAX_VALUE;
+
+    /**
+     * 流水号字节开始位置
+     */
+    int runningNumberFirst() default Integer.MAX_VALUE;
+    /**
+     * 数据长度配置的角标位置
      */
     int dataLenIndex() default Integer.MAX_VALUE;
 
     /**
-     * 数据默认起始位置
+     * 命令码配置的角标位置
      */
-    int dataStartIndex() default Integer.MAX_VALUE;
-
-    /**
-     * 命令码开始标识
-     */
-    int commandStartIndex() default Integer.MAX_VALUE;
-
-    /**
-     * 流水号开始标识
-     */
-    int runningNumberIndex() default Integer.MAX_VALUE;
-
+    int commandIndex() default Integer.MAX_VALUE;
     /**
      * 安卓地址
      */

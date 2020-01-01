@@ -14,7 +14,7 @@ import com.ljw.okserialport.serialport.utils.ApiExceptionCode;
 import com.ljw.okserialport.serialport.utils.BaseSerialPortException;
 import com.ljw.okserialport.serialport.utils.ByteUtil;
 import com.ljw.okserialport.serialport.utils.CmdPack;
-import com.ljw.okserialport.serialport.utils.LJWLogUtils;
+import com.ljw.okserialport.serialport.utils.OkSerialPortLog;
 import com.ljw.okserialport.serialport.utils.ReadMessage;
 import com.ljw.okserialport.serialport.utils.ReadType;
 
@@ -67,7 +67,7 @@ public class AsyncServicesProxy {
         mBufferedInputStream = bufferedInputStream;
         mHeartCommand = heartCommand;
         this.isActivelyReceivedCommand = isActivelyReceivedCommand;
-        LJWLogUtils.e( "是否开启了心跳：" + isActivelyReceivedCommand );
+        OkSerialPortLog.e( "是否开启了心跳：" + isActivelyReceivedCommand );
         startTask("");
     }
 
