@@ -5,7 +5,7 @@ import android.serialport.SerialPort;
 import android.text.TextUtils;
 
 
-import com.ljw.okserialport.serialport.bean.InitSerialPortBean;
+import com.ljw.okserialport.serialport.bean.SerialPortParams;
 import com.ljw.okserialport.serialport.callback.BaseDataCallback;
 import com.ljw.okserialport.serialport.callback.SendResultCallback;
 import com.ljw.okserialport.serialport.callback.SerialportConnectCallback;
@@ -49,7 +49,7 @@ public class SerialPortSingletonMgr {
     private AsyncServicesProxy mAsyncServicesProxy;
 
 
-    public void init(InitSerialPortBean initSerialPortBean, BaseDataCallback baseDataCallback, SerialportConnectCallback connectCallback) {
+    public void init(SerialPortParams initSerialPortBean, BaseDataCallback baseDataCallback, SerialportConnectCallback connectCallback) {
         if (initSerialPortBean == null) {
             throw new ApiException(ApiExceptionCode.SERIAL_PORT_ERROR, "initSerialPortBean不为null");
         }

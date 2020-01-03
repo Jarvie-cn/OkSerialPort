@@ -14,5 +14,5 @@ public interface CommonCallback<T> {
 
     void onSuccess(T t);
 
-    void onFailed(BaseSerialPortException dLCException);
+    void onFailed(BaseSerialPortException spException);
 }

@@ -134,7 +134,7 @@ public class BanknotesApi {
 
         String [] strings = new String[]{ByteUtil.integer2HexStr(1),ByteUtil.bytesToHexString(new byte[]{BanknotesProtocol.CONTROL_COIN_WORK_MODE})};
 
-        OkSerialport.getInstance().send(null,data.toString(),new byte[]{BanknotesProtocol.CONTROL_COIN_WORK_MODE}, new SendResultCallback() {
+        OkSerialport.getInstance().heartBeatReply(null,data.toString(),new byte[]{BanknotesProtocol.CONTROL_COIN_WORK_MODE}, new SendResultCallback() {
             @Override
             public void onStart(CmdPack cmdPack) {
                 if (commonCallback != null) {

@@ -174,12 +174,10 @@ public class AsyncServicesProxy {
                         if (mCmdBean.getSendResultCallback() != null) {
                             mCmdBean.getSendResultCallback().onStart(mCmdBean.getCmdPack());
                         }
-//                        LogPlus.e("cmdPackTime=" + ",cmd=" + mCmdBean.getCmdPack().getDestinationAddress());
                         SystemClock.sleep(100);
                         mOutputStream.write(mCmdBean.getCmdPack().getSendData());
                         long time = System.currentTimeMillis();
                         mCmdBean.setTime(time);
-//                        LogPlus.e("当前执行的任务：" + mCmdBean.getCmdPack().getStrSendData());
                         emitter.onNext(mCmdBean);
                         if (mCmdBean.getCmdPack().getCheckCommand() == null || mCmdBean.getCmdPack().getCheckCommand().size() == 0) {
                             mCmdBean = null;

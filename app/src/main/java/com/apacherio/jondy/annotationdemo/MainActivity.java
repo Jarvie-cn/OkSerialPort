@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ljw.okserialport.serialport.bean.DataPack;
+import com.ljw.okserialport.serialport.bean.SerialPortParams;
 import com.ljw.okserialport.serialport.callback.CommonCallback;
 import com.ljw.okserialport.serialport.callback.SendResultCallback;
 import com.ljw.okserialport.serialport.callback.SerialportConnectCallback;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     public static byte CONTROL_06 = (byte) 0x06;
     public static byte CONTROL_09 = (byte) 0x09;
     public static byte CONTROL_03 = (byte) 0x01;
-
 
 
     @Override
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BanknotesApi.get().controlWorkMode(1,1,1,1, new CommonCallback<Integer>() {
+                BanknotesApi.get().controlWorkMode(1, 1, 1, 1, new CommonCallback<Integer>() {
                     @Override
                     public void onStart(CmdPack cmdPack) {
                         Log.e("tag", "onStart ====  ");
@@ -102,27 +102,33 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        List<byte[]> heartCommands = new ArrayList<>();
+        heartCommands.add(new byte[]{CONTROL_09,CONTROL_03});
+        OkSerialport.getInstance().open(new SerialPortParams.Builder()
+                .addDeviceAddress("/dev/ttyS4")
+                .addBaudRate(9600)
+                .addHeartCommands(heartCommands)
+                .isReconnect(true)
+                .callback(new SerialportConnectCallback() {
+                    @Override
+                    public void onError(ApiException apiException) {
 
-        OkSerialport.getInstance().init("/dev/ttyS4", 9600,new SerialportConnectCallback() {
-            @Override
-            public void onError(ApiException apiException) {
-                Log.e("tag", "onError ====  " + apiException.getMessage());
-            }
+                    }
 
-            @Override
-            public void onOpenSerialPortSuccess() {
-                Log.e("tag", "onOpenSerialPortSuccess ====  ");
+                    @Override
+                    public void onOpenSerialPortSuccess() {
+                        Log.e("ljw", "onOpenSerialPortSuccess" );
 
-            }
+                    }
 
-            @Override
-            public void onHeatDataCallback(DataPack dataPack) {
-                String command = ByteUtil.bytes2HexStr(dataPack.getCommand());
-                Log.e("ljw","心跳上来的命令："  + command + "，对应的数据 = " +ByteUtil.bytes2HexStr(dataPack.getData() ));
-            }
+                    @Override
+                    public void onHeatDataCallback(DataPack dataPack) {
+                        String command = ByteUtil.bytes2HexStr(dataPack.getCommand());
+                        Log.e("ljw", "心跳上来的命令：" + command + "，对应的数据 = " + ByteUtil.bytes2HexStr(dataPack.getData()));
+                    }
+                })
+                .build());
 
-
-        });
     }
 
 
