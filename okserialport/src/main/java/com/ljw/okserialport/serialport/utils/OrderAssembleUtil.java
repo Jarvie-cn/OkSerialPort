@@ -28,11 +28,14 @@ public class OrderAssembleUtil {
         int byteIndex = 0;
         for (int i = 0; i < mProtocolMap.keySet().size(); i++) {
             if (mProtocolMap.get(i).value == -1) {
-                if (byteIndex == OkSerialPort_ProtocolManager.DATAFIRST) {
-                    //数据默认起始位置
-                    builder.append(data);
-                    int dataLength = TextUtils.isEmpty(data) ? 0 : data.length() / 2;
-                    byteIndex = byteIndex + dataLength;
+
+                if (i == mProtocolMap.keySet().size() - 1) {
+                    //校验码
+                    if (OkSerialPort_ProtocolManager.CHECKCODERULE == 0) {
+                        builder.append(CheckUtil.getXOR(builder.toString()));
+                    } else {
+                        builder.append(CRC16Utils.getCRC16(builder.toString()));
+                    }
                 } else if (byteIndex == OkSerialPort_ProtocolManager.COMMANDFIRST) {
                     //命令码开始标识
                     String command = ByteUtil.bytes2HexStr(cmd);
@@ -41,16 +44,14 @@ public class OrderAssembleUtil {
 
                 } else if (byteIndex == OkSerialPort_ProtocolManager.RUNNINGNUMBERFIRST) {
                     //流水号
-                    builder.append(ByteUtil.integer2HexStr(FlowManager.get().getFlowWater(), mProtocolMap.get(i).length*2));
+                    builder.append(ByteUtil.integer2HexStr(FlowManager.get().getFlowWater(), mProtocolMap.get(i).length * 2));
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
 
-                } else if (i == mProtocolMap.keySet().size() - 1) {
-                    //校验码
-                    if (OkSerialPort_ProtocolManager.CHECKCODERULE == 0) {
-                        builder.append(CheckUtil.getXOR(builder.toString()));
-                    } else {
-                        builder.append(CRC16Utils.getCRC16(builder.toString()));
-                    }
+                } else if (byteIndex == OkSerialPort_ProtocolManager.DATAFIRST) {
+                    //数据默认起始位置
+                    builder.append(data);
+                    int dataLength = TextUtils.isEmpty(data) ? 0 : data.length() / 2;
+                    byteIndex = byteIndex + dataLength;
                 } else {
                     int dataLength = TextUtils.isEmpty(fillDatas[index]) ? 0 : fillDatas[index].length() / 2;
                     builder.append(fillDatas[index]);
@@ -66,7 +67,7 @@ public class OrderAssembleUtil {
                     builder.append(strDataLength);
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
                 } else {
-                    builder.append(ByteUtil.integer2HexStr(ByteUtil.byteToInt(new byte[]{mProtocolMap.get(i).value}),mProtocolMap.get(i).length*2));
+                    builder.append(ByteUtil.integer2HexStr(ByteUtil.byteToInt(new byte[]{mProtocolMap.get(i).value}), mProtocolMap.get(i).length * 2));
                     byteIndex = byteIndex + mProtocolMap.get(i).length;
                 }
 
